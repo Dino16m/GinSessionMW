@@ -88,12 +88,14 @@ func (sm *SessionMiddleware) handleRequest(c *gin.Context) {
 
 	if identityKey == nil {
 		sm.Unauthorized(c)
+		c.Abort()
 		return
 	}
 
 	user := sm.Repo(identityKey)
 	if user == nil {
 		sm.Unauthorized(c)
+		c.Abort()
 	} else {
 		userMap := map[string]interface{}{
 			MapKey: user,
